@@ -69,5 +69,6 @@ app.post('/api/posts', async (req, res) => {
 
 // --- Start the Server ---
 app.listen(PORT, () => {
+    // Corrected this line with backticks ``
     console.log(`>>> Server is running on http://localhost:${PORT}`);
 });
