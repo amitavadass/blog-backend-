@@ -1,12 +1,13 @@
-// server.js - Final Test Version
+// server.js - Final Secure Version
+
+// --- This section is updated to reliably find the .env file ---
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 
 // --- Import required packages ---
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
-// --- IMPORTANT: The connection string is placed directly here ---
-const DATABASE_URL = "mongodb+srv://damitavaamit:ADtfRSH0sEgO3eRg@cluster0.ofoytlv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // --- Initialize Express App ---
 const app = express();
@@ -17,7 +18,13 @@ app.use(cors());
 app.use(express.json());
 
 // --- Database Connection ---
-mongoose.connect(DATABASE_URL)
+// Check if the DATABASE_URL is loaded before trying to connect
+if (!process.env.DATABASE_URL) {
+    console.error('Error: DATABASE_URL is not defined. Please check your .env file name and content.');
+    process.exit(1); // Stop the server if the database URL is missing
+}
+
+mongoose.connect(process.env.DATABASE_URL)
     .then(() => console.log('>>> SUCCESS: MongoDB connected successfully!'))
     .catch(err => console.error('>>> ERROR: MongoDB connection error:', err));
 
