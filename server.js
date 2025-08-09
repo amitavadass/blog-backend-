@@ -14,7 +14,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // --- Middleware ---
-app.use(cors()); 
+// Allow requests specifically from your Netlify site
+app.use(cors({
+  origin: 'https://codeandquill.netlify.app' 
+}));
 app.use(express.json());
 
 // --- Database Connection ---
